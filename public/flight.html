@@ -1,0 +1,96 @@
+<div id="index-banner" ng-controller="FlightController">
+
+    <div layout="column">
+        <div class="actionbar col-lg-12">
+            <h3>Tìm chuyến bay</h3>
+        </div>
+
+        <div class="box section no-pad-bot col-lg-12">
+            <div layout="row">
+                <form flex="noshrink" layout-align="end end">
+                    <h3 class="black-title">Chuyến bay</h3>
+                    <div>
+                        <i class="material-icons prefix">place</i>
+                        <md-input-container style="margin-right: 10px;">
+                            <label>Chọn nơi khởi hành</label>
+                            <md-select required="" ng-model="departureId" ng-change="getAri()">
+                                <md-option ng-repeat="item in airports" value="{{item.airportId}}">
+                                    {{item.name}}({{item.airportId}})
+                                </md-option>
+                            </md-select>
+                        </md-input-container>
+                    </div>
+                    <div>
+                        <i class="material-icons prefix">place</i>
+                        <md-input-container style="margin-right: 10px;">
+                            <label>Chọn điểm đến</label>
+                            <md-select required="" ng-model="arrivalId">
+                                <md-option ng-repeat="item in arrivals" value="{{item.airportId}}">
+                                    {{item.name}}({{item.airportId}})
+                                </md-option>
+                            </md-select>
+                        </md-input-container>
+                    </div>
+                </form>
+                <div flex="noshrink">
+                    <h3 class="black-title">Vé</h3>
+                    <div>
+                        <md-radio-group ng-model="isReturn" layout="row">
+                            <md-radio-button value="oneway" class="md-primary"> Một chiều</md-radio-button>
+                            <md-radio-button value="return" class="md-primary"> Khứ hồi</md-radio-button>
+                        </md-radio-group>
+                    </div>
+                    <form ng-show="isReturn == 'oneway'">
+                        <h3>Ngày bay</h3>
+                        <div class="input-field col s6">
+                            <i class="material-icons prefix">date_range</i>
+                            <input type="text" id="departure_date_picker"/>
+                        </div>
+                    </form>
+                    <form class="col s6" ng-show="isReturn == 'return'">
+                        <div class="col s12">
+                            <h3>Date</h3>
+                        </div>
+                        <div class="input-field col s6">
+                            <i class="material-icons prefix">date_range</i>
+                            <input type="text" id="return_date_picker"/>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div layout="row">
+                <div layout="column" flex="noshrink">
+                    <h3 class="black-title">Hành khách</h3>
+                    <form layout="row">
+                        <md-input-container style="margin-right: 10px;">
+                            <label>Người lớn</label>
+                            <md-select required="" ng-model="SoAdult" ng-change="getAdu()">
+                                <md-option ng-repeat="item in adult" value="{{item}}">{{item}}</md-option>
+                            </md-select>
+                        </md-input-container>
+                        <md-input-container style="margin-right: 10px;">
+                            <label>Trẻ em (từ 2-12 tuổi)</label>
+                            <md-select required="" ng-model="SoChild" ng-change="getChild()">
+                                <md-option ng-repeat="item in children" value="{{item}}">{{item}}</md-option>
+                            </md-select>
+                        </md-input-container>
+                        <md-input-container style="margin-right: 10px;">
+                            <label>Trẻ sơ sinh (Bé hơn 2 tuổi)</label>
+                            <md-select required="" ng-model="SoBaby" ng-change="getBaby()">
+                                <md-option ng-repeat="item in baby" value="{{item}}">{{item}}</md-option>
+                            </md-select>
+                        </md-input-container>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+
+        <div layout="row" layout-align="center center">
+            <md-button class="md-raised md-primary" ng-click="searchFlights()">Tìm chuyến bay
+            </md-button>
+        </div>
+    </div>
+</div>
+

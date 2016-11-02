@@ -1,0 +1,82 @@
+<div ng-controller="PassengerController">
+
+    <div class="actionbar col-lg-12">
+        <h3>Thông tin liên hệ</h3>
+    </div>
+    <div class="box" layout="row" layout-align="center center">
+        <md-input-container flex="30">
+            <label>Số điện thoại</label>
+            <input required ng-model="phone">
+        </md-input-container>
+        <md-input-container flex="30">
+            <label>Email</label>
+            <input required ng-model="email">
+        </md-input-container>
+    </div>
+
+    <div class="actionbar col-lg-12">
+        <h3>Thông tin hành khách</h3>
+    </div>
+    <div class="box" ng-repeat="item in info" ng-show="show[$index]">
+        <div class="passenger-div">
+            <h4 class="black-title" style="margin-top: 70px">{{item}}</h4>
+            <div ng-repeat="passenger in passengers[$index]">
+                <div layout="row" layout-align="center center">
+                    <md-input-container style="margin-right: 10px;">
+                        <label>Danh xưng</label>
+                        <md-select required="" ng-model="passenger.title">
+                            <md-option value="Mr">Ông</md-option>
+                            <md-option value="Mrs">Bà</md-option>
+                            <md-option value="Ms">Cô/Chị</md-option>
+                        </md-select>
+                    </md-input-container>
+                    <div layout="row">
+                        <label>
+                            <input type="radio" ng-checked="passenger.title == 'Mr'" disabled>Nam</label>
+                        <label>
+                            <input type="radio" ng-checked="passenger.title == 'Mrs' || passenger.title == 'Ms'"
+                                   disabled>Nữ</label>
+                    </div>
+                </div>
+                <div layout="row" layout-align="center center">
+                    <md-input-container>
+                        <label>Họ</label>
+                        <input required ng-model="passenger.lastname">
+                    </md-input-container>
+                    <md-input-container>
+                        <label>Tên</label>
+                        <input required ng-model="passenger.firstname">
+                    </md-input-container>
+                    <md-input-container>
+                        <label>{{id[$parent.$index]}}</label>
+                        <input required ng-model="passenger.id">
+                    </md-input-container>
+                    <md-datepicker ng-model="passenger.birthday" md-placeholder="Ngày sinh"></md-datepicker>
+                </div>
+                <hr>
+            </div>
+        </div>
+    </div>
+
+    <div class="actionbar col-lg-12">
+        <div class="box">
+            <h3 class="black-title">Tổng cộng
+                <i>{{cost}} VNĐ</i>
+            </h3>
+            <h3 class="black-title">Chọn hình thức thanh toán</h3>
+            <div>
+                <md-radio-group ng-model="pay" layout="row" layout-align="center center">
+                    <md-radio-button value="american_express" class="md-primary"><img src="https://book.vietjetair.com/images/merchamex.gif"></md-radio-button>
+                    <md-radio-button value="jcb" class="md-primary"><img src="https://book.vietjetair.com/images/merchjcb.gif"></md-radio-button>
+                    <md-radio-button value="master_card" class="md-primary"><img src="https://book.vietjetair.com/images/merchmc2.gif"></md-radio-button>
+                    <md-radio-button value="visa" class="md-primary"><img src="https://book.vietjetair.com/images/merchvisa2.gif"></md-radio-button>
+                </md-radio-group>
+            </div>
+
+            <md-button class="pay md-raised md-primary" ng-click="getTicket()" type="submit">
+                Thanh toán và lấy vé
+            </md-button>
+        </div>
+
+    </div>
+</div>

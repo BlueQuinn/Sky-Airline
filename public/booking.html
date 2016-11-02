@@ -1,0 +1,200 @@
+<div ng-controller="BookingController">
+
+    <div id="booking" layout="column">
+
+        <div ng-show="hasDeparture" id="departure">
+
+            <div class="col-lg-9">
+                <div class="actionbar">
+                    <h4>Chọn chuyến bay khởi hành</h4>
+                </div>
+                <div class="margin-div">
+                    <div class="box">
+
+                        <form name="flight_dashboard" novalidate>
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>Mã chuyến bay</th>
+                                    <th>Nơi đi</th>
+                                    <th>Nơi đến</th>
+                                    <th>Ngày</th>
+                                    <th>Giờ bay</th>
+                                    <th>Hạng vé</th>
+                                    <th>Mức giá</th>
+                                    <th>Giá vé</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="item in flights.departure">
+                                    <td>{{item.flightId}}</td>
+                                    <td>{{item.departureCity}}</td>
+                                    <td>{{item.arrivalCity}}</td>
+                                    <td>{{item.date}}</td>
+                                    <td>{{item.time}}</td>
+                                    <td>{{item.class}}</td>
+                                    <td>{{item.price}}</td>
+                                    <td>{{item.cost}}</td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <label>
+                                                <input ng-change="updateDeparture(flights.departure)"
+                                                       ng-model="$parent.departureFlight" ng-value="{{$index}}"
+                                                       type="radio"
+                                                       name="choose_departure">
+                                                Chọn
+                                            </label>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3">
+                <div class="actionbar">
+                    <h4>Thông tin khởi hành</h4>
+                </div>
+                <div class="margin-div">
+                    <div class="box">
+                        <div>
+                            <b>Hạng vé:</b><i> {{departure.class}}</i><br>
+                            <b>Mức giá:</b><i> {{departure.price}}</i><br>
+                            <b>Chuyến bay:</b><i> {{departure.flightId}}</i><br>
+                            <b>Khởi hành tại:</b><i> {{departure.departure}}</i><br>
+                            <b>Lúc:</b><i> {{departure.time}} </i> <b>ngày</b><i> {{departure.date}}</i><br>
+                            <b>Đến:</b><i> {{departure.arrival}}</i><br>
+                            <b>Số hành khách:</b><i> {{total_passenger}}</i><br>
+
+                            <b ng-show="departureFlight > -1">Người lớn:</b><i ng-show="departureFlight > -1">
+                            {{departure.adult_cost}} x {{flights.adult}} =
+                            {{departure.adult_cost*flights.adult}} VNĐ</i><br>
+                            <b ng-show="departureFlight > -1 && flights.baby > 0">Trẻ em:</b><i
+                                ng-show="departureFlight > -1 && flights.children > 0"> {{departure.children_cost}} x
+                            {{flights.children}} =
+                            {{departure.children_cost*flights.children}} VNĐ</i><br>
+                            <b ng-show="departureFlight > -1 && flights.baby > 0">Trẻ sơ sinh:</b><i
+                                ng-show="departureFlight > -1 && flights.baby > 0"> {{departure.baby_cost}} x
+                            {{flights.baby}} =
+                            {{departure.baby_cost*flights.baby}} VNĐ</i><br>
+                            <b ng-show="departureFlight > -1">Thành tiền:</b><i ng-show="departureFlight > -1">
+                            {{departure.cost}} VNĐ</i><br>
+                            <b ng-show="departureFlight > -1">Thuế giá trị gia tăng:</b><i
+                                ng-show="departureFlight > -1"> {{departure.cost/10}} VNĐ</i><br>
+                            <b ng-show="departureFlight > -1">Tổng cộng: </b> <b ng-show="departureFlight > -1"
+                                                                                 style="color: red">{{departure.total_cost}} VNĐ</b><br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="no-flight box col-lg-12" ng-show="!hasDeparture">
+            <h2>Không tìm thấy chuyến bay nào</h2>
+        </div>
+
+        <div ng-show="hasReturn" id="return">
+            <div class="col-lg-9">
+                <div class="actionbar" ng-show="flights.return !== undefined">
+                    <h4>Chọn chuyến bay khứ hồi</h4>
+                </div>
+
+                <div class="margin-div" ng-show="flights.return !== undefined">
+                    <div class="box">
+                        <h5>Chọn chuyến bay khứ hồi</h5>
+                        <form name="flight_dashboard" novalidate>
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>Mã chuyến bay</th>
+                                    <th>Nơi đi</th>
+                                    <th>Nơi đến</th>
+                                    <th>Ngày</th>
+                                    <th>Giờ bay</th>
+                                    <th>Hạng vé</th>
+                                    <th>Mức giá</th>
+                                    <th>Giá vé</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="item in flights.return">
+                                    <td>{{item.flightId}}</td>
+                                    <td>{{item.departureCity}}</td>
+                                    <td>{{item.arrivalCity}}</td>
+                                    <td>{{item.date}}</td>
+                                    <td>{{item.time}}</td>
+                                    <td>{{item.class}}</td>
+                                    <td>{{item.price}}</td>
+                                    <td>{{item.cost}}</td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <label>
+                                                <input ng-change="updateReturn(flights.return)"
+                                                       ng-model="$parent.returnFlight"
+                                                       ng-value="{{$index}}" type="radio" name="choose-return">
+                                                Chọn
+                                            </label>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3">
+                <div class="actionbar" ng-show="flights.return !== undefined">
+                    <h4>Thông tin khứ hồi</h4>
+                </div>
+                <div class="margin-div">
+                    <div class="box" ng-show="flights.return !== undefined">
+                        <div>
+                            <b>Hạng vé:</b><i> {{return.class}}</i><br>
+                            <b>Mức giá:</b><i> {{return.price}}</i><br>
+                            <b>Chuyến bay:</b><i> {{return.flightId}}</i><br>
+                            <b>Khởi hành tại:</b><i> {{return.departure}}</i><br>
+                            <b>Lúc:</b><i> {{return.time}} </i> <b>ngày</b><i> {{return.date}}</i><br>
+                            <b>Đến:</b><i> {{return.arrival}}</i><br>
+                            <b>Số hành khách:</b><i> {{total_passenger}}</i><br>
+
+                            <b ng-show="returnFlight > -1">Người lớn:</b><i ng-show="returnFlight > -1">
+                            {{return.adult_cost}} x {{flights.adult}} =
+                            {{return.adult_cost*flights.adult}} VNĐ</i><br>
+                            <b ng-show="returnFlight > -1 && flights.baby > 0">Trẻ em:</b><i
+                                ng-show="returnFlight > -1 && flights.children > 0"> {{return.children_cost}} x
+                            {{flights.children}} =
+                            {{return.children_cost*flights.children}} VNĐ</i><br>
+                            <b ng-show="returnFlight > -1 && flights.baby > 0">Trẻ sơ sinh:</b><i
+                                ng-show="returnFlight > -1 && flights.baby > 0"> {{return.baby_cost}} x
+                            {{flights.baby}} =
+                            {{return.baby_cost*flights.baby}} VNĐ</i><br>
+                            <b ng-show="returnFlight > -1">Thành tiền:</b><i ng-show="returnFlight > -1">
+                            {{return.cost}}</i><br>
+                            <b ng-show="returnFlight > -1">Thuế giá trị gia tăng:</b><i
+                                ng-show="returnFlight > -1"> {{return.cost/10}} VNĐ</i><br>
+                            <b ng-show="returnFlight > -1">Tổng cộng: </b> <b ng-show="returnFlight > -1"
+                                                                              style="color: red">{{return.total_cost}} VNĐ</b><br>
+                        </div>
+                    </div>
+                </div>
+                <div ng-show="hasDeparture" layout="row" layout-align="center end" style="margin-bottom: 5%">
+                    <md-button ng-click="reserve()" class="md-raised md-primary">Đặt chỗ</md-button>
+                </div>
+            </div>
+        </div>
+
+        <div class="no-flight box col-lg-12" ng-show="!hasReturn">
+            <h2>Không tìm thấy chuyến bay nào</h2>
+        </div>
+
+    </div>
+
+
+</div>
